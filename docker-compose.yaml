@@ -1,0 +1,25 @@
+version: '3.10'
+
+services:
+  db_unwind:
+    image: postgres:13.0-alpine
+    container_name: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_unwind:/var/lib/postgresql/data
+    env_file:
+      - ./.env
+
+  unwind:
+    build: .
+    restart: always
+    depends_on:
+      - db_unwind
+    env_file:
+      - ./.env
+
+
+volumes:
+  db_unwind:
+    driver: local
